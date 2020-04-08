@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Security.Claims;
+using System.Security.Principal;
 using System.Threading.Tasks;
 using EasyIdentitySample.ViewModel;
 using Microsoft.AspNetCore.Authentication;
@@ -26,8 +27,7 @@ namespace EasyIdentitySample.Controllers
         {
             if (request.Account == "Test" && request.Password == "123")
             {
-                var claims = new List<Claim>();
-                var claimsIdentity = new ClaimsIdentity(claims);
+                var claimsIdentity = new GenericIdentity(ClaimTypes.Name,request.Account);
                 var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
                 await _accessor.HttpContext.SignInAsync(claimsPrincipal);
                 
@@ -37,9 +37,10 @@ namespace EasyIdentitySample.Controllers
         }
 
         [HttpPost]
-        public IActionResult SignOut()
+        public async Task<IActionResult> SignOut()
         {
-            // TODO SignOut
+            await _accessor.HttpContext.SignOutAsync();
+            
             return RedirectToAction("Index");
         }
     }
