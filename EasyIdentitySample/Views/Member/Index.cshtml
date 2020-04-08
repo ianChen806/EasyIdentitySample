@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "title";
     Layout = "_Layout";
+    var returnUrl = Context.Request.Query["ReturnUrl"];
 }
 
 <h2>Login</h2>
@@ -16,4 +17,5 @@
     </label>
     <br>
     <button>Submit</button>
+    <input name="ReturnUrl" type="hidden" value="@returnUrl">
 </form>

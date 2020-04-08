@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -25,7 +26,10 @@ namespace EasyIdentitySample
                     {
                         options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                     })
-                    .AddCookie();
+                    .AddCookie(options =>
+                    {
+                        options.LoginPath = "/Member/Index";
+                    });
 
             services.AddHttpContextAccessor();
         }

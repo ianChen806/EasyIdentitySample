@@ -25,7 +25,7 @@ namespace EasyIdentitySample.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(MemberViewModel request)
+        public async Task<IActionResult> Index(MemberViewModel request,string returnUrl)
         {
             if (request.Account == "Test" && request.Password == "123")
             {
@@ -38,6 +38,10 @@ namespace EasyIdentitySample.Controllers
                 var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
                 await _accessor.HttpContext.SignInAsync(claimsPrincipal);
 
+                if (Url.IsLocalUrl(returnUrl))
+                {
+                    return Redirect(returnUrl);
+                }
                 return RedirectToAction("Index", "Home");
             }
             return View();

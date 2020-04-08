@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using EasyIdentitySample.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 
 namespace EasyIdentitySample.Controllers
@@ -17,16 +18,14 @@ namespace EasyIdentitySample.Controllers
             _accessor = accessor;
         }
 
+        [Authorize]
         public IActionResult Index()
         {
-            if (_accessor.HttpContext.User.Identity.IsAuthenticated == false)
-            {
-                return RedirectToAction("Index", "Member");
-            }
             var isInRole = _accessor.HttpContext.User.IsInRole("Admin");
             return View();
         }
 
+        [Authorize]
         public IActionResult Privacy()
         {
             return View();
