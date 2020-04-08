@@ -23,6 +23,7 @@ namespace EasyIdentitySample.Controllers
             {
                 return RedirectToAction("Index", "Member");
             }
+            var isInRole = _accessor.HttpContext.User.IsInRole("Admin");
             return View();
         }
 
