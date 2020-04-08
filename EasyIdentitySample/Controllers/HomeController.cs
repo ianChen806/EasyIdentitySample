@@ -19,7 +19,7 @@ namespace EasyIdentitySample.Controllers
 
         public IActionResult Index()
         {
-            if (_accessor.HttpContext.User.Identity.IsAuthenticated==false)
+            if (_accessor.HttpContext.User.Identity.IsAuthenticated == false)
             {
                 return RedirectToAction("Index", "Member");
             }

@@ -23,7 +23,7 @@ namespace EasyIdentitySample
 
             services.AddAuthentication(options =>
                     {
-                        options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                        options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                     })
                     .AddCookie();
 
