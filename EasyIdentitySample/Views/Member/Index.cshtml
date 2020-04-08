@@ -7,7 +7,7 @@
 }
 
 <h2>Login</h2>
-<form asp-action="Index" asp-controller="Member" method="post">
+<form asp-action="Index" asp-controller="Member" method="post" asp-route-returnUrl="@returnUrl">
     <label asp-for="Account">
         <input asp-for="Account">
     </label>
@@ -17,5 +17,4 @@
     </label>
     <br>
     <button>Submit</button>
-    <input name="ReturnUrl" type="hidden" value="@returnUrl">
 </form>
