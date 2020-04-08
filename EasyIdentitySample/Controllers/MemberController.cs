@@ -4,6 +4,7 @@ using System.Security.Principal;
 using System.Threading.Tasks;
 using EasyIdentitySample.ViewModel;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,6 +18,7 @@ namespace EasyIdentitySample.Controllers
         {
             _accessor = accessor;
         }
+
         public IActionResult Index()
         {
             return View();
@@ -27,10 +29,15 @@ namespace EasyIdentitySample.Controllers
         {
             if (request.Account == "Test" && request.Password == "123")
             {
-                var claimsIdentity = new GenericIdentity(ClaimTypes.Name,request.Account);
+                var claims = new List<Claim>()
+                {
+                    new Claim(ClaimTypes.Name, request.Account),
+                    new Claim(ClaimTypes.Role, "Admin"),
+                };
+                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                 var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
                 await _accessor.HttpContext.SignInAsync(claimsPrincipal);
-                
+
                 return RedirectToAction("Index", "Home");
             }
             return View();
@@ -40,7 +47,7 @@ namespace EasyIdentitySample.Controllers
         public async Task<IActionResult> SignOut()
         {
             await _accessor.HttpContext.SignOutAsync();
-            
+
             return RedirectToAction("Index");
         }
     }
